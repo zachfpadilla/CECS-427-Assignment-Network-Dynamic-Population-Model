@@ -1,4 +1,4 @@
-# CECS 427: Market and Strategic Interaction in Network
+# CECS 427 Assignment: Network Dynamic Population Model
 
 #### Martin Silva (#030854159), Zachary Padilla (#033497475)
 
