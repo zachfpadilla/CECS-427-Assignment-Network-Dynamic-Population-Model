@@ -69,8 +69,8 @@ Starting Cascade with initiators: ['1', '2', '5'], Threshold: 0.33
 Cascade finished in 7 rounds.
 Total nodes activated: 50
 ```
-
-<img width="1200" height="759" alt="Screenshot_3" src="https://github.com/user-attachments/assets/e0dd4595-8961-4fc0-b083-0ac22bea0c1c" />
+![](https://github.com/zachfpadilla/CECS-427-Assignment-Network-Dynamic-Population-Model/blob/main/CASCADE.gif)
+![](https://github.com/zachfpadilla/CECS-427-Assignment-Network-Dynamic-Population-Model/blob/main/20251203_23h18m45s_grim.png)
 
 ``python ./dynamic_population.py graph.gml --action covid --initiator 3,4 --probability_of_infection 0.5 --shelter 0.1 --vaccination 0.1 --plot --interactive``
 ```
@@ -81,5 +81,6 @@ Simulating 10 days...
 Simulation completed.
 Total infections over 10 days: 42
 ```
+![](https://github.com/zachfpadilla/CECS-427-Assignment-Network-Dynamic-Population-Model/blob/main/COVID.gif)
+![](https://github.com/zachfpadilla/CECS-427-Assignment-Network-Dynamic-Population-Model/blob/main/20251203_23h19m17s_grim.png)
 
-<img width="1199" height="958" alt="Screenshot_10" src="https://github.com/user-attachments/assets/88624071-ee93-4a96-ba67-090aeab5c4ea" />
