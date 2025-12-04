@@ -10,130 +10,76 @@ Required Libraries:
 In order to run this project via git:
 
 ```
-~/: git clone https://github.com/zachfpadilla/CECS-427-Market-and-Strategic-Interaction-in-Network
-~/: cd CECS-427-Market-and-Strategic-Interaction-in-Network/
+~/: git clone https://github.com/zachfpadilla/CECS-427-Assignment-Network-Dynamic-Population-Model
+~/: cd CECS-427-Assignment-Network-Dynamic-Population-Model/
 
 ### Optionally ###
-~/CECS-427-Market-and-Strategic-Interaction-in-Network/: python3 -m venv .venv
-~/CECS-427-Market-and-Strategic-Interaction-in-Network/: source .venv/bin/activate
-(.venv) ~/CECS-427-Market-and-Strategic-Interaction-in-Network/: pip install networkx, matplotlib
+~/CECS-427-Assignment-Network-Dynamic-Population-Model/: python3 -m venv .venv
+~/CECS-427-Assignment-Network-Dynamic-Population-Model/: source .venv/bin/activate
+(.venv) ~/CECS-427-Assignment-Network-Dynamic-Population-Model/: pip install networkx, matplotlib
 ```
 
 ```
-~/CECS-427-Market-and-Strategic-Interaction-in-Network/: python3 ./market_strategy.py -h
+(.venv) martin:/home/martin/CECS-427-Assignment-Network-Dynamic-Population-Model -> python3 ./dynamic_population.py -h
+usage: dynamic_population.py [-h] [--action {cascade,covid}] [--initiator INITIATOR] [--threshold THRESHOLD] [--probability_of_infection PROBABILITY_OF_INFECTION] [--probability_of_death PROBABILITY_OF_DEATH] [--lifespan LIFESPAN] [--shelter SHELTER]
+                             [--vaccination VACCINATION] [--interactive] [--plot]
+                             graph_file
 
-usage: market_strategy.py [-h] [--plot] [--interactive]
+Reads the attributes of the nodes and edges in the file. Additional flags allow for additional visualization and more verbose output explaining per-round behavior of bipartite graphs.
 
-Python application that performs the market-clearing algorithm with visualizations, as well as optional round graph display.
+positional arguments:
+  graph_file            Input file.
 
 options:
-  --plot                  Plots the output of the command
-  --interactive           Plots the output of every round graph (e.g. includes contricted set calculation)
+  -h, --help            show this help message and exit
+  --action {cascade,covid}
+                        Either simulates a cascading effect through the network (e.g., information spread) or simulates the spread of a pandemic like COVID-19 across the network.
+  --initiator INITIATOR
+                        Choose the initial node(s) from which the action will start. (comma-seperated values)
+  --threshold THRESHOLD
+                        Set the threshold value q (e.g., between 0 and 1) of the cascade effect.
+  --probability_of_infection PROBABILITY_OF_INFECTION
+                        Set the probability of infection p of the infections
+  --probability_of_death PROBABILITY_OF_DEATH
+                        Set the probability q of death while infected.
+  --lifespan LIFESPAN   Define the lifespan l (e.g., a number of time steps or days) of the rounds.
+  --shelter SHELTER     Set the sheltering parameter s (e.g., a proportion or list of nodes that will be sheltered or protected from the infection).
+  --vaccination VACCINATION
+                        Set the vaccination rate or proportion r (e.g., a number between 0 and 1) representing the proportion of the network that is vaccinated.
+  --interactive         Plot the graph and the state of the nodes for every round
+  --plot                Plot the number of new infections per day when the simulation completes
 ```
 
 ## Usage Instructions
-* ``--plot`` outputs an image of the plot to a new window.
-* ``--interactive`` outputs an image of the round graphs to a new window.
+* ``--plot`` outputs a line plot showing the infections each round/day.
+* ``--interactive`` outputs an animated graph showing the node state every round (dead, infected, healthy, sheltered).
+* See above flags for more information.
+* Cascade only uses `threshold` flag for calculation, COVID requires all other flags (death/infection probabilities, lifespan, sheltered/vaccinated nodes). Default values are provided for each.
+* Other intrinsic SIRS attributes are built to take place as well, (recovery rate, immunity loss, etc.)
 
 ## Description of Implementation
-- All instructions were followed as listed—interpretations were made where needed.
+- All instructions were followed as listed — Interpretations were made where needed.
 
 ## Examples of Commands and Outputs
-``python ./market_strategy.py market_constricted.gml --plot``
+``python ./dynamic_population.py graph.gml --action cascade --initiator 1,2,5 --threshold 0.33 --plot --interactive``
 ```
-Successfully loaded graph from 'market.gml'.
-Nodes: 6, Edges: 9
-
---- Initial State ---
-Seller Prices:
-  S3: 0
-  S2: 0
-  S1: 0
-
-Market cleared; a perfect matching is possible at current prices.
-Final Matching (Buyer: Seller):
-  B1 -> S1
-  B3 -> S2
-  B2 -> S3
-  S3 -> B2
-  S2 -> B3
-  S1 -> B1
-
-Generating plot...
-Generating plot...
+Successfully loaded graph from 'graph.gml'.
+Nodes: 50, Edges: 236
+Starting Cascade with initiators: ['1', '2', '5'], Threshold: 0.33
+Cascade finished in 7 rounds.
+Total nodes activated: 50
 ```
 
 <img width="1200" height="759" alt="Screenshot_3" src="https://github.com/user-attachments/assets/e0dd4595-8961-4fc0-b083-0ac22bea0c1c" />
 
-``python ./market_strategy.py market.gml --plot --interactive``
+``python ./dynamic_population.py graph.gml --action covid --initiator 3,4 --probability_of_infection 0.5 --shelter 0.1 --vaccination 0.1 --plot --interactive``
 ```
-Successfully loaded graph from 'market.gml'.
-Nodes: 6, Edges: 9
-
---- Initial State ---
-Seller Prices:
-  S1: 0
-  S3: 0
-  S2: 0
-
------ Round 1 -----
-Found constricted set of buyers: {'B1', 'B2'}
-Their preferred neighborhood of sellers: {'S1'}
-Increasing prices for sellers in the neighborhood...
-New Seller Prices:
-  S1: 1
-  S3: 0
-  S2: 0
-
------ Round 2 -----
-Found constricted set of buyers: {'B1', 'B2', 'B3'}
-Their preferred neighborhood of sellers: {'S1', 'S2'}
-Increasing prices for sellers in the neighborhood...
-New Seller Prices:
-  S1: 2
-  S3: 0
-  S2: 1
-
------ Round 3 -----
-Found constricted set of buyers: {'B1', 'B2', 'B3'}
-Their preferred neighborhood of sellers: {'S1', 'S2'}
-Increasing prices for sellers in the neighborhood...
-New Seller Prices:
-  S1: 3
-  S3: 0
-  S2: 2
-
------ Round 4 -----
-Found constricted set of buyers: {'B1', 'B2', 'B3'}
-Their preferred neighborhood of sellers: {'S1', 'S2'}
-Increasing prices for sellers in the neighborhood...
-New Seller Prices:
-  S1: 4
-  S3: 0
-  S2: 3
-
------ Round 5 -----
-Found constricted set of buyers: {'B1', 'B2', 'B3'}
-Their preferred neighborhood of sellers: {'S1', 'S2'}
-Increasing prices for sellers in the neighborhood...
-New Seller Prices:
-  S1: 5
-  S3: 0
-  S2: 4
-
------ Round 6 -----
-
-Market cleared; a perfect matching is possible at current prices.
-Final Matching (Buyer: Seller):
-  B1 -> S1
-  B2 -> S3
-  B3 -> S2
-  S1 -> B1
-  S3 -> B2
-  S2 -> B3
-
-Generating plot...
-Generating plot...
+Successfully loaded graph from 'graph.gml'.
+Nodes: 50, Edges: 236
+Sheltered nodes: 5
+Simulating 10 days...
+Simulation completed.
+Total infections over 10 days: 42
 ```
 
 <img width="1199" height="958" alt="Screenshot_10" src="https://github.com/user-attachments/assets/88624071-ee93-4a96-ba67-090aeab5c4ea" />
