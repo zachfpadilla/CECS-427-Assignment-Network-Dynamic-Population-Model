@@ -41,7 +41,7 @@ options:
 ## Examples of Commands and Outputs
 ``python ./market_strategy.py market_constricted.gml --plot``
 ```
-Successfully loaded graph from 'market_constricted.gml'.
+Successfully loaded graph from 'market.gml'.
 Nodes: 6, Edges: 9
 
 --- Initial State ---
@@ -67,7 +67,7 @@ Generating plot...
 
 ``python ./market_strategy.py market.gml --plot --interactive``
 ```
-Successfully loaded graph from 'market_constricted.gml'.
+Successfully loaded graph from 'market.gml'.
 Nodes: 6, Edges: 9
 
 --- Initial State ---
